@@ -1,0 +1,94 @@
+<style lang="less">
+  .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 200rpx 0;
+    box-sizing: border-box;
+  }
+</style>
+
+<script>
+  import wepy from 'wepy';
+  import 'wepy-async-function';
+
+  export default class extends wepy.app {
+    config = {
+      pages: [
+        'pages/index'
+      ],
+      window: {
+        navigationBarBackgroundColor: '#fff',
+        navigationBarTextStyle: 'black',
+        navigationBarTitleText: '花密 Pro',
+        backgroundColor: '#fff',
+        backgroundTextStyle: 'light',
+        enablePullDownRefresh: false
+      },
+      // tabBar: {
+      //   color: '#000',
+      //   selectedColor: '#fff',
+      //   backgroundColor: '#fff',
+      //   borderStyle: 'black',
+      //   list: [{
+      //     pagePath: 'pages/index',
+      //     text: '首页',
+      //     iconPath: '',
+      //     selectedIconPath: ''
+      //   }],
+      //   position: 'bottom'
+      // },
+      networkTimeout: {
+        request: 60000,
+        connectSocket: 60000,
+        uploadFile: 60000,
+        downloadFile: 60000
+      },
+      debug: false
+    }
+
+    globalData = {
+      userInfo: null
+    }
+
+    onLaunch(options) {
+      console.info('onLaunch', options);
+    }
+
+    onShow(options) {
+      console.info('onShow', options);
+    }
+
+    onHide() {
+      console.info('onHide');
+    }
+
+    onError(err) {
+      console.error(err);
+    }
+
+    constructor() {
+      super();
+      this.use('requestfix');
+      // this.use('promisify');
+    }
+
+    getUserInfo(cb) {
+      const that = this;
+
+      if (that.globalData.userInfo) {
+        (typeof cb === 'function') && cb(that.globalData.userInfo);
+      } else {
+        wepy.getUserInfo({
+          withCredentials: false,
+          success(res) {
+            that.globalData.userInfo = res.userInfo;
+            (typeof cb === 'function') && cb(that.globalData.userInfo);
+          }
+        });
+      }
+    }
+  }
+</script>

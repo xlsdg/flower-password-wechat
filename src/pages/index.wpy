@@ -1,0 +1,88 @@
+<style lang="less">
+  .userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .userinfo-avatar {
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+  }
+
+  .userinfo-nickname {
+    color: #aaa;
+  }
+</style>
+
+<template>
+  <view class="container">
+    <view class="userinfo">
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover" />
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarBackgroundColor: '#000',
+      navigationBarTextStyle: 'white',
+      navigationBarTitleText: '花密 Pro',
+      backgroundColor: '#fff',
+      backgroundTextStyle: 'dark',
+      enablePullDownRefresh: false,
+      disableScroll: false
+    }
+
+    data = {
+      userInfo: {}
+    }
+
+    onLoad(options) {
+      const that = this;
+      console.info('onLoad', options);
+      wepy.$instance.getUserInfo((userInfo) => {
+        that.userInfo = userInfo;
+        that.$apply();
+      });
+    }
+
+    onReady() {
+      console.info('onReady');
+    }
+
+    onShow() {
+      console.info('onShow');
+    }
+
+    onHide() {
+      console.info('onHide');
+    }
+
+    onUnload() {
+      console.info('onUnload');
+    }
+
+    onPullDownRefresh() {
+      console.info('onPullDownRefresh');
+    }
+
+    onReachBottom() {
+      console.info('onReachBottom');
+    }
+
+    onShareAppMessage() {
+      console.info('onShareAppMessage');
+    }
+
+    onPageScroll() {
+      console.info('onPageScroll');
+    }
+  }
+</script>
